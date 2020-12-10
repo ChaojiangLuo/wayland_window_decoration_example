@@ -75,7 +75,7 @@ struct button {
         egl_context = eglCreateContext (egl_display, config, EGL_NO_CONTEXT, NULL);
         eglInitialize(egl_display, NULL, NULL);
         wl_subsurface_set_position(subsurface, x, y);
-        egl_window = wl_egl_window_create(surface, 10, 8);
+        egl_window = wl_egl_window_create(surface, 40, 32);
         egl_surface = eglCreateWindowSurface(egl_display, config, egl_window, NULL);
     }
 
@@ -383,8 +383,8 @@ static struct wl_shell_surface_listener shell_surface_listener = {&shell_surface
 
 
 static void create_window(struct window *window, int32_t width, int32_t height) {
-    const uint border_size = 5;
-    const uint title_size = 15;
+    const uint border_size = 2;
+    const uint title_size = 40;
     eglBindAPI (EGL_OPENGL_API);
     EGLint attributes[] = {
         EGL_RED_SIZE, 8,
@@ -434,8 +434,8 @@ static void create_window(struct window *window, int32_t width, int32_t height) 
     window->decorations.emplace_back(compositor, subcompositor, window->surface, border_size, title_size, config, XDG_TOPLEVEL_RESIZE_EDGE_BOTTOM_RIGHT, 0,0,1,1);
 
     window->buttons.emplace_back(compositor, subcompositor, window->decorations[0].surface, config, 5, 4, button::type::CLOSE, 0,0,0,1);
-    window->buttons.emplace_back(compositor, subcompositor, window->decorations[0].surface, config, 20, 4, button::type::MAXIMISE, 0.5,0.5,0.5,1);
-    window->buttons.emplace_back(compositor, subcompositor, window->decorations[0].surface, config, 35, 4, button::type::MINIMISE, 1,1,1,1);
+    window->buttons.emplace_back(compositor, subcompositor, window->decorations[0].surface, config, 50, 4, button::type::MAXIMISE, 0.5,0.5,0.5,1);
+    window->buttons.emplace_back(compositor, subcompositor, window->decorations[0].surface, config, 95, 4, button::type::MINIMISE, 1,1,1,1);
 
     window_resize(window, width, height, false);
 }
@@ -505,7 +505,7 @@ int main() {
     egl_display = eglGetDisplay (display);
     eglInitialize(egl_display, NULL, NULL);
 
-    create_window(&window, 256, 256);
+    create_window(&window, 1024, 768);
 
     while (running) {
         wl_display_dispatch_pending (display);
